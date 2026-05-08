@@ -1,3 +1,5 @@
+import { chooseCpuPlays } from "./ai.js";
+
 export function resolveDebtFromBank(payer, payee, amount) {
   const sorted = [...payer.bank].sort((a, b) => b.value - a.value);
   let due = amount;
@@ -13,6 +15,18 @@ export function resolveDebtFromBank(payer, payee, amount) {
   payee.bank.push(...paid);
 
   return { remainingDebt: Math.max(0, due), paid };
+}
+
+export function chooseCpuTurnPlays(player, playsLeft) {
+  if (!player || !Array.isArray(player.hand) || !player.sets) {
+    return [];
+  }
+
+  return chooseCpuPlays({
+    hand: player.hand,
+    sets: player.sets,
+    playsLeft,
+  });
 }
 
 export function applyActionCard(state, actorKey, card) {
