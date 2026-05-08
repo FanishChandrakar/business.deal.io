@@ -47,3 +47,17 @@ npx vercel pull --yes --environment preview
 - First player to complete 3 full sets wins
 
 This is an original prototype inspired by set-collection card mechanics, not official Monopoly Deal content.
+
+## v1 Prototype Release
+
+- Added deck catalog extraction and reusable game state modules.
+- Added bank and debt resolution mechanics with action card pipeline (`Debt Collector`, `Rent`).
+- Added CPU play-priority policy module and integration path.
+- Added runtime UI status lines for bank, debt, and action state updates.
+- Added automated tests for rules, action flow, and AI behavior.
+- Added Vercel configuration and production deployment workflow.
+
+## Verification checkpoint
+
+- Automated checks: `npm run test` passed.
+- Deployment checks: `npx vercel build` and `npx vercel --prod` completed successfully.
