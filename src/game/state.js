@@ -1,6 +1,8 @@
+import { createDeck } from "./deck.js";
+
 export function createInitialState() {
   return {
-    deck: [],
+    deck: createDeck(),
     players: {
       human: { hand: [], sets: {}, bank: [] },
       cpu: { hand: [], sets: {}, bank: [] },
