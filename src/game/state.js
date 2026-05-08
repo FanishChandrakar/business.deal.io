@@ -12,6 +12,5 @@ export function createInitialState() {
     playsLeft: 3,
     winner: null,
     pendingDebt: null,
-    lastDebtResolution: null,
   };
 }

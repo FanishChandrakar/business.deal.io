@@ -7,7 +7,6 @@ export function renderState(state) {
     turn: state.turn,
     winner: state.winner,
     pendingDebt: state.pendingDebt,
-    lastDebtResolution: state.lastDebtResolution,
     banks: {
       human: totalBankValue(state.players.human),
       cpu: totalBankValue(state.players.cpu),
