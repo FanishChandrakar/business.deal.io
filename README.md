@@ -19,6 +19,26 @@ npm install
 npm run test -- tests/rules.spec.js
 ```
 
+## Deploy on Vercel
+
+Use Node via `nvm` first, then run build and production deploy:
+
+```bash
+export NVM_DIR="$HOME/.nvm"
+. "$NVM_DIR/nvm.sh"
+cd "/Users/fanishchandrakar/Repo/business.deal.io"
+npx vercel build
+npx vercel --prod
+```
+
+If this is your first deploy in this folder, log in and link/pull project settings before build/deploy:
+
+```bash
+npx vercel login
+npx vercel link
+npx vercel pull --yes --environment preview
+```
+
 ## Current gameplay loop
 
 - Draw 2 cards per turn
