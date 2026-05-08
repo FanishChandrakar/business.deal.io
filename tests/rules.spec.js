@@ -1,6 +1,7 @@
 import { describe, it, expect } from "vitest";
 import { createInitialState } from "../src/game/state.js";
 import { createDeck, SET_SIZES } from "../src/game/deck.js";
+import { resolveDebtFromBank } from "../src/game/rules.js";
 
 describe("state bootstrap", () => {
   it("starts with no winner and human turn", () => {
@@ -33,5 +34,31 @@ describe("deck creation", () => {
       const groupCards = propertyCards.filter((card) => card.group === group);
       expect(groupCards).toHaveLength(required + 2);
     });
+  });
+});
+
+describe("debt payment", () => {
+  it("moves highest-value bank cards first and settles debt when possible", () => {
+    const payer = { bank: [{ value: 1 }, { value: 3 }, { value: 2 }] };
+    const payee = { bank: [] };
+
+    const result = resolveDebtFromBank(payer, payee, 4);
+
+    expect(result.remainingDebt).toBe(0);
+    expect(result.paid.map((card) => card.value)).toEqual([3, 2]);
+    expect(payer.bank.map((card) => card.value)).toEqual([1]);
+    expect(payee.bank.map((card) => card.value)).toEqual([3, 2]);
+  });
+
+  it("returns remaining debt when payer bank is exhausted", () => {
+    const payer = { bank: [{ value: 2 }, { value: 1 }] };
+    const payee = { bank: [] };
+
+    const result = resolveDebtFromBank(payer, payee, 7);
+
+    expect(result.remainingDebt).toBe(4);
+    expect(result.paid.map((card) => card.value)).toEqual([2, 1]);
+    expect(payer.bank).toEqual([]);
+    expect(payee.bank.map((card) => card.value)).toEqual([2, 1]);
   });
 });
