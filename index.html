@@ -1,0 +1,39 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Business Deal</title>
+    <link rel="stylesheet" href="./styles.css" />
+  </head>
+  <body>
+    <main class="app">
+      <header class="topbar">
+        <h1>Business Deal</h1>
+        <div id="status" class="status"></div>
+      </header>
+
+      <section class="board">
+        <article class="panel">
+          <h2>You</h2>
+          <div id="player-sets" class="sets"></div>
+          <div id="player-hand" class="hand"></div>
+        </article>
+
+        <article class="panel">
+          <h2>Computer</h2>
+          <div id="cpu-sets" class="sets"></div>
+          <div id="cpu-hand" class="hand"></div>
+        </article>
+      </section>
+
+      <section class="controls">
+        <button id="draw-btn" class="btn">Draw 2</button>
+        <button id="end-btn" class="btn">End Turn</button>
+        <button id="restart-btn" class="btn">Restart</button>
+      </section>
+    </main>
+
+    <script src="./game.js"></script>
+  </body>
+</html>
