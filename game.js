@@ -24,6 +24,7 @@ const state = {
   drawnThisTurn: false,
   playsLeft: 3,
   winner: null,
+  actionLog: [],
 };
 
 function createDeck() {
@@ -60,6 +61,7 @@ function init() {
   state.drawnThisTurn = false;
   state.playsLeft = 3;
   state.winner = null;
+  state.actionLog = ["Game started"];
   draw("human", 5);
   draw("cpu", 5);
   render();
@@ -102,6 +104,7 @@ function playCard(player, index) {
     const sets = state.players.human.sets;
     sets[card.group] = sets[card.group] || [];
     sets[card.group].push(card);
+    state.actionLog.unshift(`You played ${card.group} District`);
   }
   state.playsLeft -= 1;
   checkWinner();
@@ -134,12 +137,25 @@ function cpuTurn() {
     const sets = state.players.cpu.sets;
     sets[card.group] = sets[card.group] || [];
     sets[card.group].push(card);
+    state.actionLog.unshift(`CPU played ${card.group} District`);
   }
   checkWinner();
   state.turn = "human";
   state.drawnThisTurn = false;
   state.playsLeft = 3;
   render();
+}
+
+function renderLog() {
+  const log = document.getElementById("action-log");
+  if (!log) return;
+  log.innerHTML = "";
+  state.actionLog.slice(0, 12).forEach((item) => {
+    const row = document.createElement("div");
+    row.className = "log-item";
+    row.textContent = item;
+    log.appendChild(row);
+  });
 }
 
 function renderSets(target, player) {
@@ -195,6 +211,9 @@ function renderHand(target, player) {
 
 function render() {
   const status = document.getElementById("status");
+  const turnSub = document.getElementById("turn-sub");
+  const hudYou = document.getElementById("hud-you");
+  const hudCpu = document.getElementById("hud-cpu");
   const bankLine = document.getElementById("bank-line");
   const debtLine = document.getElementById("debt-line");
   const actionLine = document.getElementById("action-line");
@@ -205,9 +224,14 @@ function render() {
 
   if (state.winner) {
     status.innerHTML = `<span class="danger">${state.winner} wins with 3 full sets.</span>`;
+    turnSub.textContent = "Round complete";
   } else {
-    status.textContent = `Deck: ${state.deck.length} | Plays left: ${state.playsLeft}`;
+    status.textContent = state.turn === "human" ? "Your Turn" : "CPU Turn";
+    turnSub.textContent = `Plays left: ${state.playsLeft} / 3`;
   }
+
+  hudYou.textContent = `$${totalBankValue(state.players.human)}M`;
+  hudCpu.textContent = `$${totalBankValue(state.players.cpu)}M`;
   bankLine.textContent = `Bank - You: $${totalBankValue(state.players.human)}M | CPU: $${totalBankValue(state.players.cpu)}M`;
   debtLine.textContent = formatDebtLine();
   actionLine.textContent = formatActionLine();
@@ -216,17 +240,20 @@ function render() {
   renderSets(document.getElementById("cpu-sets"), "cpu");
   renderHand(document.getElementById("player-hand"), "human");
   renderHand(document.getElementById("cpu-hand"), "cpu");
+  renderLog();
 }
 
 document.getElementById("draw-btn").addEventListener("click", () => {
   if (state.drawnThisTurn || state.winner) return;
   draw("human", 2);
+  state.actionLog.unshift("You drew 2 cards");
   state.drawnThisTurn = true;
   render();
 });
 
 document.getElementById("end-btn").addEventListener("click", () => {
   if (!state.drawnThisTurn || state.winner) return;
+  state.actionLog.unshift("You ended your turn");
   cpuTurn();
 });
 

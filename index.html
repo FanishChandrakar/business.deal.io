@@ -7,35 +7,67 @@
     <link rel="stylesheet" href="./styles.css" />
   </head>
   <body>
-    <main class="app">
-      <header class="topbar">
-        <h1>Business Deal</h1>
-        <div class="status-wrap">
-          <div id="status" class="status"></div>
-          <div id="bank-line" class="status-subtle">Bank - You: $0M | CPU: $0M</div>
-          <div id="debt-line" class="status-subtle">Debt: None</div>
-          <div id="action-line" class="status-subtle">Action: None</div>
+    <main class="table-app">
+      <header class="hud">
+        <div class="brand">
+          <h1>Business Deal</h1>
+          <p>Build sets. Collect deals. Win big.</p>
+        </div>
+        <div class="hud-cards">
+          <div class="hud-card">
+            <strong>You</strong>
+            <span id="hud-you">$0M</span>
+          </div>
+          <div class="hud-card turn-card">
+            <strong id="status">Your Turn</strong>
+            <span id="turn-sub">Plays left: 3 / 3</span>
+          </div>
+          <div class="hud-card">
+            <strong>CPU</strong>
+            <span id="hud-cpu">$0M</span>
+          </div>
         </div>
       </header>
 
-      <section class="board">
-        <article class="panel">
-          <h2>You</h2>
-          <div id="player-sets" class="sets"></div>
+      <section class="table-grid">
+        <aside class="left-rail panel">
+          <h2>Your Hand</h2>
           <div id="player-hand" class="hand"></div>
-        </article>
+        </aside>
 
-        <article class="panel">
-          <h2>Computer</h2>
-          <div id="cpu-sets" class="sets"></div>
-          <div id="cpu-hand" class="hand"></div>
-        </article>
+        <section class="center-table panel">
+          <div class="zone">
+            <h3>You</h3>
+            <div id="player-sets" class="sets"></div>
+          </div>
+
+          <div class="zone bank-zone">
+            <h3>Bank & State</h3>
+            <div id="bank-line" class="status-subtle">Bank - You: $0M | CPU: $0M</div>
+            <div id="debt-line" class="status-subtle">Debt: None</div>
+            <div id="action-line" class="status-subtle">Action: None</div>
+          </div>
+
+          <div class="zone">
+            <h3>CPU</h3>
+            <div id="cpu-sets" class="sets"></div>
+          </div>
+        </section>
+
+        <aside class="right-rail panel">
+          <h2>Action Log</h2>
+          <div id="action-log" class="log"></div>
+          <div class="controls">
+            <button id="draw-btn" class="btn btn-primary">Draw 2</button>
+            <button id="end-btn" class="btn btn-secondary">End Turn</button>
+            <button id="restart-btn" class="btn btn-ghost">Restart Game</button>
+          </div>
+        </aside>
       </section>
 
-      <section class="controls">
-        <button id="draw-btn" class="btn">Draw 2</button>
-        <button id="end-btn" class="btn">End Turn</button>
-        <button id="restart-btn" class="btn">Restart</button>
+      <section class="cpu-hand panel">
+        <h2>CPU Hand</h2>
+        <div id="cpu-hand" class="hand"></div>
       </section>
     </main>
 
