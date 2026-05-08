@@ -7,6 +7,11 @@ export const SET_SIZES = {
 };
 
 const ACTION_NAMES = ["Rent", "Sly Deal", "Debt Collector", "Deal Breaker"];
+const PROPERTY_COPIES_ABOVE_SET_SIZE = 2;
+const ACTION_COPIES_PER_NAME = 4;
+const MONEY_CARD_COUNT = 15;
+const MONEY_VALUE_OFFSET = 1;
+const MONEY_VALUE_VARIANTS = 4;
 
 function shuffle(cards) {
   const copy = [...cards];
@@ -21,19 +26,19 @@ export function createDeck() {
   const cards = [];
 
   Object.entries(SET_SIZES).forEach(([group, required]) => {
-    for (let i = 0; i < required + 2; i += 1) {
+    for (let i = 0; i < required + PROPERTY_COPIES_ABOVE_SET_SIZE; i += 1) {
       cards.push({ type: "property", group });
     }
   });
 
   ACTION_NAMES.forEach((name) => {
-    for (let i = 0; i < 4; i += 1) {
+    for (let i = 0; i < ACTION_COPIES_PER_NAME; i += 1) {
       cards.push({ type: "action", name });
     }
   });
 
-  for (let i = 0; i < 15; i += 1) {
-    cards.push({ type: "money", value: 1 + (i % 4) });
+  for (let i = 0; i < MONEY_CARD_COUNT; i += 1) {
+    cards.push({ type: "money", value: MONEY_VALUE_OFFSET + (i % MONEY_VALUE_VARIANTS) });
   }
 
   return shuffle(cards);
