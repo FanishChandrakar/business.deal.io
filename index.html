@@ -17,6 +17,7 @@
           <div class="hud-card">
             <strong>You</strong>
             <span id="hud-you">$0M</span>
+            <small id="hud-you-hand">Hand 0</small>
           </div>
           <div class="hud-card turn-card">
             <strong id="status">Your Turn</strong>
@@ -25,6 +26,7 @@
           <div class="hud-card">
             <strong>CPU</strong>
             <span id="hud-cpu">$0M</span>
+            <small id="hud-cpu-hand">Hand 0</small>
           </div>
         </div>
       </header>
@@ -69,6 +71,12 @@
         <h2>CPU Hand</h2>
         <div id="cpu-hand" class="hand"></div>
       </section>
+
+      <footer class="table-footer panel">
+        <div>2 Players</div>
+        <div>First to 3 sets wins</div>
+        <div id="footer-tip">Tip: Complete smaller sets first.</div>
+      </footer>
     </main>
 
     <script src="./game.js"></script>

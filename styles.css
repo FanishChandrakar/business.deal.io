@@ -31,6 +31,7 @@ body {
   background: linear-gradient(180deg, #0f192b, #0b1423);
   border: 1px solid var(--line);
   border-radius: 12px;
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.05), 0 8px 24px rgba(0, 0, 0, 0.35);
 }
 
 .hud {
@@ -49,6 +50,7 @@ body {
   font-size: 44px;
   line-height: 1;
   letter-spacing: 1px;
+  text-transform: uppercase;
 }
 
 .brand p {
@@ -70,6 +72,7 @@ body {
   display: flex;
   flex-direction: column;
   justify-content: center;
+  gap: 3px;
 }
 
 .hud-card strong {
@@ -79,6 +82,11 @@ body {
 .hud-card span {
   color: #67e38f;
   font-weight: 700;
+}
+
+.hud-card small {
+  color: var(--muted);
+  font-size: 12px;
 }
 
 .turn-card strong {
@@ -103,7 +111,7 @@ body {
 }
 
 .center-table {
-  background: radial-gradient(circle at center, #0b5a33, #09331f);
+  background: radial-gradient(circle at center, #0f6a3d, #0a2f1d 65%);
 }
 
 h2,
@@ -141,11 +149,12 @@ h3 {
   background: var(--panel-2);
   padding: 8px;
   font-size: 13px;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.25);
 }
 
 .property-card {
   width: 175px;
-  background: linear-gradient(180deg, #1e2f48, #1a2538);
+  background: linear-gradient(180deg, #203651, #1a2637);
 }
 
 .card-title {
@@ -225,6 +234,25 @@ h3 {
   margin-top: 10px;
 }
 
+.table-footer {
+  margin-top: 10px;
+  padding: 10px 14px;
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+  gap: 8px;
+  color: #dbe6f8;
+  font-size: 13px;
+}
+
+.table-footer div {
+  border-right: 1px solid rgba(255, 255, 255, 0.12);
+  padding-right: 8px;
+}
+
+.table-footer div:last-child {
+  border-right: none;
+}
+
 @media (max-width: 1200px) {
   .table-grid {
     grid-template-columns: 1fr;
@@ -236,5 +264,19 @@ h3 {
 
   .brand h1 {
     font-size: 34px;
+  }
+
+  .table-footer {
+    grid-template-columns: 1fr;
+  }
+
+  .table-footer div {
+    border-right: none;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.12);
+    padding: 4px 0;
+  }
+
+  .table-footer div:last-child {
+    border-bottom: none;
   }
 }

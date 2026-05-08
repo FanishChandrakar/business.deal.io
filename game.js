@@ -214,6 +214,9 @@ function render() {
   const turnSub = document.getElementById("turn-sub");
   const hudYou = document.getElementById("hud-you");
   const hudCpu = document.getElementById("hud-cpu");
+  const hudYouHand = document.getElementById("hud-you-hand");
+  const hudCpuHand = document.getElementById("hud-cpu-hand");
+  const footerTip = document.getElementById("footer-tip");
   const bankLine = document.getElementById("bank-line");
   const debtLine = document.getElementById("debt-line");
   const actionLine = document.getElementById("action-line");
@@ -232,6 +235,12 @@ function render() {
 
   hudYou.textContent = `$${totalBankValue(state.players.human)}M`;
   hudCpu.textContent = `$${totalBankValue(state.players.cpu)}M`;
+  hudYouHand.textContent = `Hand ${state.players.human.hand.length}`;
+  hudCpuHand.textContent = `Hand ${state.players.cpu.hand.length}`;
+  footerTip.textContent =
+    state.turn === "human"
+      ? "Tip: Play properties before ending turn."
+      : "Tip: Watch CPU set progress before drawing.";
   bankLine.textContent = `Bank - You: $${totalBankValue(state.players.human)}M | CPU: $${totalBankValue(state.players.cpu)}M`;
   debtLine.textContent = formatDebtLine();
   actionLine.textContent = formatActionLine();
