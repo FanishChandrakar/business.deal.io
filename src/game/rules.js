@@ -16,13 +16,21 @@ export function resolveDebtFromBank(payer, payee, amount) {
 }
 
 export function applyActionCard(state, actorKey, card) {
+  if (!card || card.type !== "action" || typeof card.name !== "string") {
+    return false;
+  }
+
   const targetKey = actorKey === "human" ? "cpu" : "human";
 
   if (card.name === "Debt Collector") {
     state.pendingDebt = { from: targetKey, to: actorKey, amount: 5 };
+    return true;
   }
 
   if (card.name === "Rent") {
     state.pendingDebt = { from: targetKey, to: actorKey, amount: 3 };
+    return true;
   }
+
+  return false;
 }

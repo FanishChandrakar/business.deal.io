@@ -2,6 +2,7 @@ import { describe, it, expect } from "vitest";
 import { createInitialState } from "../src/game/state.js";
 import { createDeck, SET_SIZES } from "../src/game/deck.js";
 import { resolveDebtFromBank, applyActionCard } from "../src/game/rules.js";
+import { handleActionCardPlay } from "../src/ui/handlers.js";
 
 describe("state bootstrap", () => {
   it("starts with no winner and human turn", () => {
@@ -69,6 +70,54 @@ describe("action resolution", () => {
 
     applyActionCard(state, "human", { type: "action", name: "Debt Collector" });
 
+    expect(state.pendingDebt).toEqual({ from: "cpu", to: "human", amount: 5 });
+  });
+
+  it("creates pending debt for Rent action", () => {
+    const state = { players: { human: {}, cpu: {} }, pendingDebt: null };
+
+    applyActionCard(state, "cpu", { type: "action", name: "Rent" });
+
+    expect(state.pendingDebt).toEqual({ from: "human", to: "cpu", amount: 3 });
+  });
+
+  it("returns false and leaves state unchanged for unknown actions", () => {
+    const state = {
+      players: { human: {}, cpu: {} },
+      pendingDebt: { from: "cpu", to: "human", amount: 5 },
+    };
+
+    const handled = applyActionCard(state, "human", { type: "action", name: "Unknown Action" });
+
+    expect(handled).toBe(false);
+    expect(state.pendingDebt).toEqual({ from: "cpu", to: "human", amount: 5 });
+  });
+
+  it("returns false and leaves state unchanged for invalid action input", () => {
+    const state = {
+      players: { human: {}, cpu: {} },
+      pendingDebt: { from: "cpu", to: "human", amount: 5 },
+    };
+
+    const handled = applyActionCard(state, "human", null);
+
+    expect(handled).toBe(false);
+    expect(state.pendingDebt).toEqual({ from: "cpu", to: "human", amount: 5 });
+  });
+});
+
+describe("action card handler pipeline", () => {
+  it("sets pendingAction and pendingDebt together when an action is played", () => {
+    const card = { type: "action", name: "Debt Collector" };
+    const state = {
+      players: { human: {}, cpu: {} },
+      pendingAction: null,
+      pendingDebt: null,
+    };
+
+    handleActionCardPlay(state, "human", card);
+
+    expect(state.pendingAction).toEqual({ actorKey: "human", card });
     expect(state.pendingDebt).toEqual({ from: "cpu", to: "human", amount: 5 });
   });
 });
