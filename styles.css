@@ -28,11 +28,24 @@ body {
 .topbar {
   display: flex;
   justify-content: space-between;
-  align-items: center;
+  align-items: flex-start;
+  gap: 12px;
 }
 
 .status {
   color: var(--muted);
+  font-weight: 600;
+}
+
+.status-wrap {
+  text-align: right;
+  min-width: 290px;
+}
+
+.status-subtle {
+  color: var(--muted);
+  font-size: 13px;
+  line-height: 1.35;
 }
 
 .board {
@@ -108,5 +121,14 @@ body {
 @media (max-width: 860px) {
   .board {
     grid-template-columns: 1fr;
+  }
+
+  .topbar {
+    flex-direction: column;
+  }
+
+  .status-wrap {
+    text-align: left;
+    min-width: 0;
   }
 }

@@ -3,6 +3,7 @@ import { createInitialState } from "../src/game/state.js";
 import { createDeck, SET_SIZES } from "../src/game/deck.js";
 import { resolveDebtFromBank, applyActionCard } from "../src/game/rules.js";
 import { handleActionCardPlay } from "../src/ui/handlers.js";
+import { formatStatusLine } from "../src/ui/render.js";
 
 describe("state bootstrap", () => {
   it("starts with no winner and human turn", () => {
@@ -119,5 +120,15 @@ describe("action card handler pipeline", () => {
 
     expect(state.pendingAction).toEqual({ actorKey: "human", card });
     expect(state.pendingDebt).toEqual({ from: "cpu", to: "human", amount: 5 });
+  });
+});
+
+describe("status line", () => {
+  it("shows pending debt when present", () => {
+    const line = formatStatusLine({
+      pendingDebt: { from: "cpu", to: "human", amount: 3 },
+    });
+
+    expect(line).toContain("Debt: CPU owes You $3M");
   });
 });
