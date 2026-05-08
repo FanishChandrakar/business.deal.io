@@ -27,6 +27,45 @@ const state = {
   actionLog: [],
 };
 
+const sounds = {
+  draw: null,
+  play: null,
+  end: null,
+};
+
+function initUiEnhancements() {
+  if (window.lucide?.createIcons) {
+    window.lucide.createIcons();
+  }
+  if (window.Howl) {
+    sounds.draw = new Howl({
+      src: ["https://cdn.pixabay.com/download/audio/2022/03/15/audio_5db2f7b6f8.mp3?filename=click-124467.mp3"],
+      volume: 0.2,
+    });
+    sounds.play = new Howl({
+      src: ["https://cdn.pixabay.com/download/audio/2022/01/18/audio_d0f60fae57.mp3?filename=interface-124464.mp3"],
+      volume: 0.18,
+    });
+    sounds.end = new Howl({
+      src: ["https://cdn.pixabay.com/download/audio/2022/03/10/audio_c8abf8d8d5.mp3?filename=menu-button-88360.mp3"],
+      volume: 0.2,
+    });
+  }
+}
+
+function playSound(key) {
+  const sound = sounds[key];
+  if (sound) sound.play();
+}
+
+function pulse(id) {
+  const el = document.getElementById(id);
+  if (!el) return;
+  el.classList.remove("playing-pop");
+  void el.offsetWidth;
+  el.classList.add("playing-pop");
+}
+
 function createDeck() {
   const cards = [];
   Object.entries(SET_SIZES).forEach(([group, count]) => {
@@ -106,6 +145,8 @@ function playCard(player, index) {
     sets[card.group].push(card);
     state.actionLog.unshift(`You played ${card.group} District`);
   }
+  playSound("play");
+  pulse("player-sets");
   state.playsLeft -= 1;
   checkWinner();
   render();
@@ -139,6 +180,8 @@ function cpuTurn() {
     sets[card.group].push(card);
     state.actionLog.unshift(`CPU played ${card.group} District`);
   }
+  playSound("end");
+  pulse("cpu-sets");
   checkWinner();
   state.turn = "human";
   state.drawnThisTurn = false;
@@ -250,12 +293,17 @@ function render() {
   renderHand(document.getElementById("player-hand"), "human");
   renderHand(document.getElementById("cpu-hand"), "cpu");
   renderLog();
+  if (window.lucide?.createIcons) {
+    window.lucide.createIcons();
+  }
 }
 
 document.getElementById("draw-btn").addEventListener("click", () => {
   if (state.drawnThisTurn || state.winner) return;
   draw("human", 2);
   state.actionLog.unshift("You drew 2 cards");
+  playSound("draw");
+  pulse("player-hand");
   state.drawnThisTurn = true;
   render();
 });
@@ -263,9 +311,11 @@ document.getElementById("draw-btn").addEventListener("click", () => {
 document.getElementById("end-btn").addEventListener("click", () => {
   if (!state.drawnThisTurn || state.winner) return;
   state.actionLog.unshift("You ended your turn");
+  playSound("end");
   cpuTurn();
 });
 
 document.getElementById("restart-btn").addEventListener("click", init);
 
+initUiEnhancements();
 init();

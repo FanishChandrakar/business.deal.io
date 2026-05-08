@@ -77,6 +77,9 @@ body {
 
 .hud-card strong {
   font-size: 24px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
 }
 
 .hud-card span {
@@ -150,6 +153,13 @@ h3 {
   padding: 8px;
   font-size: 13px;
   box-shadow: 0 4px 10px rgba(0, 0, 0, 0.25);
+  transition: transform 140ms ease, box-shadow 140ms ease;
+  transform: translateY(0);
+}
+
+.card:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 18px rgba(0, 0, 0, 0.35);
 }
 
 .property-card {
@@ -178,6 +188,10 @@ h3 {
   cursor: pointer;
   background: var(--green);
   color: #04240f;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
 }
 
 .log {
@@ -195,6 +209,7 @@ h3 {
   line-height: 1.3;
   padding: 6px 0;
   border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+  animation: fadeUp 220ms ease;
 }
 
 .controls {
@@ -211,6 +226,16 @@ h3 {
   color: #f8fbff;
   font-weight: 700;
   cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  transition: transform 120ms ease, filter 120ms ease;
+}
+
+.btn:hover:not(:disabled) {
+  transform: translateY(-1px);
+  filter: brightness(1.06);
 }
 
 .btn-primary {
@@ -251,6 +276,32 @@ h3 {
 
 .table-footer div:last-child {
   border-right: none;
+}
+
+.playing-pop {
+  animation: playPop 180ms ease;
+}
+
+@keyframes playPop {
+  0% {
+    transform: scale(0.97);
+    opacity: 0.85;
+  }
+  100% {
+    transform: scale(1);
+    opacity: 1;
+  }
+}
+
+@keyframes fadeUp {
+  0% {
+    opacity: 0;
+    transform: translateY(4px);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0);
+  }
 }
 
 @media (max-width: 1200px) {

@@ -5,6 +5,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Business Deal</title>
     <link rel="stylesheet" href="./styles.css" />
+    <script defer src="https://unpkg.com/lucide@latest"></script>
+    <script defer src="https://cdnjs.cloudflare.com/ajax/libs/howler/2.2.4/howler.min.js"></script>
   </head>
   <body>
     <main class="table-app">
@@ -15,16 +17,16 @@
         </div>
         <div class="hud-cards">
           <div class="hud-card">
-            <strong>You</strong>
+            <strong><i data-lucide="user-round"></i> You</strong>
             <span id="hud-you">$0M</span>
             <small id="hud-you-hand">Hand 0</small>
           </div>
           <div class="hud-card turn-card">
-            <strong id="status">Your Turn</strong>
+            <strong id="status"><i data-lucide="sparkles"></i> Your Turn</strong>
             <span id="turn-sub">Plays left: 3 / 3</span>
           </div>
           <div class="hud-card">
-            <strong>CPU</strong>
+            <strong><i data-lucide="bot"></i> CPU</strong>
             <span id="hud-cpu">$0M</span>
             <small id="hud-cpu-hand">Hand 0</small>
           </div>
@@ -57,12 +59,12 @@
         </section>
 
         <aside class="right-rail panel">
-          <h2>Action Log</h2>
+          <h2><i data-lucide="scroll-text"></i> Action Log</h2>
           <div id="action-log" class="log"></div>
           <div class="controls">
-            <button id="draw-btn" class="btn btn-primary">Draw 2</button>
-            <button id="end-btn" class="btn btn-secondary">End Turn</button>
-            <button id="restart-btn" class="btn btn-ghost">Restart Game</button>
+            <button id="draw-btn" class="btn btn-primary"><i data-lucide="hand"></i> Draw 2</button>
+            <button id="end-btn" class="btn btn-secondary"><i data-lucide="arrow-right"></i> End Turn</button>
+            <button id="restart-btn" class="btn btn-ghost"><i data-lucide="rotate-ccw"></i> Restart Game</button>
           </div>
         </aside>
       </section>
