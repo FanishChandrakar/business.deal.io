@@ -1,0 +1,13 @@
+{
+  "name": "business-deal-io",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "test": "vitest run",
+    "test:watch": "vitest",
+    "dev": "python3 -m http.server 8080"
+  },
+  "devDependencies": {
+    "vitest": "^2.1.9"
+  }
+}

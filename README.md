@@ -11,6 +11,14 @@ python3 -m http.server 8080
 
 Open `http://localhost:8080`.
 
+## Test
+
+```bash
+cd "/Users/fanishchandrakar/Repo/business.deal.io"
+npm install
+npm run test -- tests/rules.spec.js
+```
+
 ## Current gameplay loop
 
 - Draw 2 cards per turn
