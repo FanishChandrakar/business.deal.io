@@ -6,6 +6,14 @@ const SET_SIZES = {
   Metro: 4,
 };
 
+const PROPERTY_META = {
+  Solar: { color: "#f59e0b", value: 3, rent: [1, 3] },
+  Marina: { color: "#14b8a6", value: 2, rent: [1, 2, 4] },
+  Uptown: { color: "#60a5fa", value: 2, rent: [1, 2, 4] },
+  Central: { color: "#f43f5e", value: 3, rent: [1, 3, 5] },
+  Metro: { color: "#a78bfa", value: 4, rent: [1, 2, 3, 7] },
+};
+
 const state = {
   deck: [],
   players: {
@@ -58,7 +66,7 @@ function init() {
 }
 
 function cardLabel(card) {
-  if (card.type === "property") return `${card.group} Property`;
+  if (card.type === "property") return `${card.group} District`;
   if (card.type === "money") return `Cash $${card.value}M`;
   return card.name;
 }
@@ -140,9 +148,16 @@ function renderSets(target, player) {
   Object.keys(SET_SIZES).forEach((group) => {
     const count = (sets[group] || []).length;
     const req = SET_SIZES[group];
+    const meta = PROPERTY_META[group];
     const div = document.createElement("div");
-    div.className = "card";
-    div.textContent = `${group}: ${count}/${req}`;
+    div.className = "card property-card";
+    div.style.borderColor = meta.color;
+    div.innerHTML = `
+      <div class="card-title">${group} District</div>
+      <div class="card-meta">Set: ${count}/${req}</div>
+      <div class="card-meta">Value: $${meta.value}M</div>
+      <div class="card-meta">Rent path: ${meta.rent.join(" / ")}</div>
+    `;
     target.appendChild(div);
   });
 }
@@ -153,7 +168,21 @@ function renderHand(target, player) {
   hand.forEach((card, idx) => {
     const cardEl = document.createElement("div");
     cardEl.className = "card";
-    cardEl.textContent = cardLabel(card);
+    if (card.type === "property") {
+      const meta = PROPERTY_META[card.group];
+      const owned = (state.players[player].sets[card.group] || []).length;
+      const needed = SET_SIZES[card.group];
+      cardEl.classList.add("property-card");
+      cardEl.style.borderColor = meta.color;
+      cardEl.innerHTML = `
+        <div class="card-title">${card.group} District</div>
+        <div class="card-meta">Set progress: ${owned}/${needed}</div>
+        <div class="card-meta">Value: $${meta.value}M</div>
+        <div class="card-meta">Rent path: ${meta.rent.join(" / ")}</div>
+      `;
+    } else {
+      cardEl.textContent = cardLabel(card);
+    }
     if (player === "human" && state.turn === "human" && !state.winner && state.playsLeft > 0) {
       const btn = document.createElement("button");
       btn.textContent = "Play";

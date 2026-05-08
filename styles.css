@@ -81,6 +81,22 @@ body {
   line-height: 1.35;
 }
 
+.property-card {
+  width: 170px;
+  background: linear-gradient(180deg, #243247, #1f2937);
+}
+
+.card-title {
+  font-size: 13px;
+  font-weight: 700;
+  margin-bottom: 4px;
+}
+
+.card-meta {
+  font-size: 11px;
+  color: #cbd5e1;
+}
+
 .card button {
   margin-top: 6px;
   width: 100%;
@@ -130,5 +146,9 @@ body {
   .status-wrap {
     text-align: left;
     min-width: 0;
+  }
+
+  .property-card {
+    width: 150px;
   }
 }
