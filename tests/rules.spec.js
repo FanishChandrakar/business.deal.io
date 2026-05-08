@@ -1,7 +1,7 @@
 import { describe, it, expect } from "vitest";
 import { createInitialState } from "../src/game/state.js";
 import { createDeck, SET_SIZES } from "../src/game/deck.js";
-import { resolveDebtFromBank } from "../src/game/rules.js";
+import { resolveDebtFromBank, applyActionCard } from "../src/game/rules.js";
 
 describe("state bootstrap", () => {
   it("starts with no winner and human turn", () => {
@@ -60,5 +60,15 @@ describe("debt payment", () => {
     expect(result.paid.map((card) => card.value)).toEqual([2, 1]);
     expect(payer.bank).toEqual([]);
     expect(payee.bank.map((card) => card.value)).toEqual([2, 1]);
+  });
+});
+
+describe("action resolution", () => {
+  it("creates pending debt for Debt Collector action", () => {
+    const state = { players: { human: {}, cpu: {} }, pendingDebt: null };
+
+    applyActionCard(state, "human", { type: "action", name: "Debt Collector" });
+
+    expect(state.pendingDebt).toEqual({ from: "cpu", to: "human", amount: 5 });
   });
 });

@@ -11,6 +11,7 @@ export function createInitialState() {
     drawnThisTurn: false,
     playsLeft: 3,
     winner: null,
+    pendingAction: null,
     pendingDebt: null,
   };
 }

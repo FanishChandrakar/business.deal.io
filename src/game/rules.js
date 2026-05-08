@@ -14,3 +14,15 @@ export function resolveDebtFromBank(payer, payee, amount) {
 
   return { remainingDebt: Math.max(0, due), paid };
 }
+
+export function applyActionCard(state, actorKey, card) {
+  const targetKey = actorKey === "human" ? "cpu" : "human";
+
+  if (card.name === "Debt Collector") {
+    state.pendingDebt = { from: targetKey, to: actorKey, amount: 5 };
+  }
+
+  if (card.name === "Rent") {
+    state.pendingDebt = { from: targetKey, to: actorKey, amount: 3 };
+  }
+}
