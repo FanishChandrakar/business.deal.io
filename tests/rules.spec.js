@@ -3,7 +3,7 @@ import { createInitialState } from "../src/game/state.js";
 import { createDeck, SET_SIZES } from "../src/game/deck.js";
 import { resolveDebtFromBank, applyActionCard } from "../src/game/rules.js";
 import { handleActionCardPlay } from "../src/ui/handlers.js";
-import { formatStatusLine } from "../src/ui/render.js";
+import { formatStatusLine, formatBankLine, formatDebtLine, formatActionLine } from "../src/ui/render.js";
 
 describe("state bootstrap", () => {
   it("starts with no winner and human turn", () => {
@@ -130,5 +130,22 @@ describe("status line", () => {
     });
 
     expect(line).toContain("Debt: CPU owes You $3M");
+  });
+});
+
+describe("runtime status subtotals", () => {
+  it("formats bank, debt, and action lines for runtime UI", () => {
+    const state = {
+      players: {
+        human: { bank: [{ value: 3 }, { value: 1 }] },
+        cpu: { bank: [{ value: 2 }] },
+      },
+      pendingDebt: { from: "human", to: "cpu", amount: 4 },
+      pendingAction: { actorKey: "cpu", card: { name: "Debt Collector" } },
+    };
+
+    expect(formatBankLine(state)).toBe("Bank - You: $4M | CPU: $2M");
+    expect(formatDebtLine(state)).toBe("Debt: You owes CPU $4M");
+    expect(formatActionLine(state)).toBe("Action: CPU played Debt Collector");
   });
 });

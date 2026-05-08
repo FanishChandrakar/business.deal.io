@@ -63,6 +63,26 @@ function cardLabel(card) {
   return card.name;
 }
 
+function totalBankValue(player) {
+  if (!player?.bank) return 0;
+  return player.bank.reduce((sum, card) => sum + (card.value || 0), 0);
+}
+
+function labelForPlayer(key) {
+  return key === "cpu" ? "CPU" : "You";
+}
+
+function formatDebtLine() {
+  if (!state.pendingDebt) return "Debt: None";
+  const { from, to, amount } = state.pendingDebt;
+  return `Debt: ${labelForPlayer(from)} owes ${labelForPlayer(to)} $${amount}M`;
+}
+
+function formatActionLine() {
+  if (!state.pendingAction) return "Action: None";
+  return `Action: ${labelForPlayer(state.pendingAction.actorKey)} played ${state.pendingAction.card.name}`;
+}
+
 function playCard(player, index) {
   if (state.winner || player !== "human" || state.turn !== "human" || state.playsLeft <= 0) return;
   const hand = state.players.human.hand;
@@ -146,6 +166,9 @@ function renderHand(target, player) {
 
 function render() {
   const status = document.getElementById("status");
+  const bankLine = document.getElementById("bank-line");
+  const debtLine = document.getElementById("debt-line");
+  const actionLine = document.getElementById("action-line");
   const drawBtn = document.getElementById("draw-btn");
   const endBtn = document.getElementById("end-btn");
   drawBtn.disabled = state.turn !== "human" || state.drawnThisTurn || !!state.winner;
@@ -156,6 +179,9 @@ function render() {
   } else {
     status.textContent = `Deck: ${state.deck.length} | Plays left: ${state.playsLeft}`;
   }
+  bankLine.textContent = `Bank - You: $${totalBankValue(state.players.human)}M | CPU: $${totalBankValue(state.players.cpu)}M`;
+  debtLine.textContent = formatDebtLine();
+  actionLine.textContent = formatActionLine();
 
   renderSets(document.getElementById("player-sets"), "human");
   renderSets(document.getElementById("cpu-sets"), "cpu");
